@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+{% endblock %}
+
+{% block js1 %}
+<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+{% endblock %}
+
+{% block header %}
+<div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到天天生鲜!</div>
+			<div class="fr">
+				<div id="user" class="login_info fl">
+					欢迎您：<em>{{ request.session.username }}</em>
+                    <span>|</span>
+                    <a href="{% url 'user:logout' %}">退出</a>
+				</div>
+				<div class="login_btn fl">
+					<a href="{% url 'user:login' %}">登录 </a>
+					<span>|</span>
+					<a href="{% url 'user:register' %}">注册</a>
+				</div>
+				<div class="user_link fl">
+					<span>|</span>
+					<a href="{% url 'user:info' %}">用户中心</a>
+					<span>|</span>
+					<a href="{% url 'carts:carts' %}">我的购物车</a>
+					<span>|</span>
+					<a href="{% url 'order:place_order' %}">我的订单</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <script>
+        {#显示用户登陆状态#}
+        $(function(){
+            if ($('#user em').html()!=''){
+                $('div.login_btn.fl').hide()
+                $('#user').show()
+            }
+        })
+    </script>
+{% endblock %}
+
+
+
+
+
+{% block footer %}
+<div class="footer">
+    <div class="foot_link">
+        <a href="#">关于我们</a>
+        <span>|</span>
+        <a href="#">联系我们</a>
+        <span>|</span>
+        <a href="#">招聘人才</a>
+        <span>|</span>
+        <a href="#">友情链接</a>
+    </div>
+    <p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+    <p>电话：010-****888    京ICP备*******8号</p>
+</div>
+{% endblock %}
+

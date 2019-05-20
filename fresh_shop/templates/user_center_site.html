@@ -1,0 +1,51 @@
+{% extends 'user_center_info.html' %}
+
+
+
+
+
+{% block user_center_con %}
+<div class="right_content clearfix">
+				<h3 class="common_title2">收货地址</h3>
+				<div class="site_con">
+					<dl>
+						<dt>当前地址：</dt>
+						<dd>{{ addr.address }} &nbsp;&nbsp; ({{ addr.signer_name }} 收) &nbsp;&nbsp; {{ addr.signer_mobile }}</dd>
+					</dl>
+				</div>
+				<h3 class="common_title2">编辑地址</h3>
+				<div class="site_con">
+					<form action="{% url 'user:edit_site' %}" method="post">
+                        {% csrf_token %}
+						<div class="form_group">
+							<label>收件人：</label>
+							<input type="text" name="name" ><span style="color: red;">{{ error.name }}</span>
+						</div>
+						<div class="form_group form_group2">
+							<label>详细地址：</label>
+							<textarea style="float:left" class="site_area" name="site"></textarea><span style="color: red;">{{ error.site }}</span>
+						</div>
+						<div class="form_group">
+							<label>邮编：</label>
+							<input type="text" name="postcode" ><span style="color: red;">{{ error.postcode }}</span>
+						</div>
+						<div class="form_group">
+							<label>手机：</label>
+							<input type="text" name="tel" ><span style="color: red;">{{ error.tel }}</span>
+						</div>
+
+						<input type="submit" name="" value="提交" class="info_submit">
+					</form>
+				</div>
+		</div>
+{% endblock %}
+
+
+{% block js2_child %}
+    <script>
+        $('#site a').addClass('active').siblings().removeClass('active')
+    </script>
+{% endblock %}
+
+
+

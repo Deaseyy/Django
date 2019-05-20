@@ -1,0 +1,131 @@
+{% extends 'base_main.html' %}
+
+
+{% block title %}
+天天生鲜-商品列表
+{% endblock %}
+
+
+{% block header %}
+{{ block.super }}
+<div class="search_bar clearfix">
+    <a href="{% url 'goods:index' %}" class="logo fl"><img src="/static/images/logo.png"></a>
+    <div class="search_con fl">
+        <form action="{% url 'goods:search' %}" method="post">
+            {% csrf_token %}
+        <input type="text" class="input_text fl" name="name_keyword" placeholder="搜索商品">
+        <input type="submit" class="input_btn fr" name="" value="搜索">
+        </form>
+    </div>
+    <div class="guest_cart fr">
+        <a href="{% url 'carts:carts' %}" class="cart_name fl">我的购物车</a>
+        <div class="goods_count fl">{{ my_carts }}</div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					<li><a href="{% url 'goods:list' %}?category=1&page=1" class="fruit">新鲜水果</a></li>
+					<li><a href="{% url 'goods:list' %}?category=2&page=1" class="seafood">海鲜水产</a></li>
+					<li><a href="{% url 'goods:list' %}?category=3&page=1" class="meet">猪牛羊肉</a></li>
+					<li><a href="{% url 'goods:list' %}?category=4&page=1" class="egg">禽类蛋品</a></li>
+					<li><a href="{% url 'goods:list' %}?category=5&page=1" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="{% url 'goods:list' %}?category=6&page=1" class="ice">速冻食品</a></li>
+				</ul>
+			</div>
+			<ul class="navlist fl">
+				<li><a href="">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+<div class="breadcrumb">
+    <a href="{% url 'goods:list' %}">全部分类</a>
+    <span>></span>
+
+    {% if category  %}
+    <a href="{% url 'goods:list' %}?category={{ goodss.0.category_id }}">
+        {% ifequal goodss.0.category_id 1 %}新鲜水果{% endifequal %}
+        {% ifequal goodss.0.category_id 2 %}海鲜水产{% endifequal %}
+        {% ifequal goodss.0.category_id 3 %}猪牛羊肉{% endifequal %}
+        {% ifequal goodss.0.category_id 4 %}禽类蛋白{% endifequal %}
+        {% ifequal goodss.0.category_id 5 %}新鲜蔬菜{% endifequal %}
+        {% ifequal goodss.0.category_id 6 %}速冻食品{% endifequal %}
+    </a>
+    {% endif %}
+</div>
+
+<div class="main_wrap clearfix">
+    <div class="l_wrap fl clearfix">
+        <div class="new_goods">
+            <h3>新品推荐</h3>
+            <ul>
+                <li>
+                    <a href="#"><img src="/static/images/goods/goods001.jpg"></a>
+                    <h4><a href="#">进口柠檬</a></h4>
+                    <div class="prize">￥3.90</div>
+                </li>
+                <li>
+                    <a href="#"><img src="/static/images/goods/goods002.jpg"></a>
+                    <h4><a href="#">玫瑰香葡萄</a></h4>
+                    <div class="prize">￥16.80</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="r_wrap fr clearfix">
+        <div class="sort_bar">
+            <a href="{% url 'goods:list' %}?category={{ category }}&page={{ goodss.number }}" class="active">默认</a>
+            <a href="{% url 'goods:list' %}?category={{ category }}&page={{ goodss.number }}&order=price">价格</a>
+            <a href="#">人气</a>
+        </div>
+
+        <ul class="goods_type_list clearfix">
+            {% for goods in goodss %}
+            <li>
+                <a href="{% url 'goods:detail' id=goods.id %}"><img src="/media/{{ goods.goods_front_image }}"></a>
+                <h4><a href="{% url 'goods:detail' id=goods.id %}">{{ goods.name }}</a></h4>
+                <div class="operate">
+                    <span class="prize">￥{{ goods.shop_price }}</span>
+                    <span class="unit">{{ goods.shop_price }}/500g</span>
+                    <a href="#" class="add_goods" title="加入购物车"></a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <p style="font-size: 40px;text-align: center">{{ error }}</p>
+
+        <div class="pagenation">
+            {% if goodss.has_previous %}
+                <a href="{% url 'goods:list' %}?category={{ goodss.0.category_id }}&page={{ goodss.number | add:-1 }}">上一页</a>
+            {% endif %}
+
+                {% for i in goodss.paginator.page_range %}
+                    <a href="{% url 'goods:list' %}?category={{ goodss.0.category_id }}&page={{ i }}" class="active">{{ i }}</a>
+                {% endfor %}
+
+            {% if goodss.has_next %}
+                <a href="{% url 'goods:list' %}?category={{ goodss.0.category_id }}&page={{ goodss.number | add:1 }}">下一页</a>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+

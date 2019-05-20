@@ -1,0 +1,266 @@
+{% extends 'base_main.html' %}
+
+
+{% block title %}
+    天天生鲜-商品详情
+{% endblock %}
+
+
+{% block header %}
+    {{ block.super }}
+    <div class="search_bar clearfix">
+		<a href="{% url 'goods:index' %}" class="logo fl"><img src="/static/images/logo.png"></a>
+		<div class="search_con fl">
+			<form action="{% url 'goods:search' %}" method="post">
+            {% csrf_token %}
+            <input type="text" class="input_text fl" name="name_keyword" placeholder="搜索商品">
+            <input type="submit" class="input_btn fr" name="" value="搜索">
+        </form>
+		</div>
+		<div class="guest_cart fr">
+			<a href="{% url 'carts:carts' %}" class="cart_name fl">我的购物车</a>
+			<div class="goods_count fl" id="show_count">{{ my_carts }}</div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block content %}
+	<div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					<li><a href="{% url 'goods:list' %}?category=1&page=1" class="fruit">新鲜水果</a></li>
+					<li><a href="{% url 'goods:list' %}?category=2&page=1" class="seafood">海鲜水产</a></li>
+					<li><a href="{% url 'goods:list' %}?category=3&page=1" class="meet">猪牛羊肉</a></li>
+					<li><a href="{% url 'goods:list' %}?category=4&page=1" class="egg">禽类蛋品</a></li>
+					<li><a href="{% url 'goods:list' %}?category=5&page=1" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="{% url 'goods:list' %}?category=6&page=1" class="ice">速冻食品</a></li>
+				</ul>
+			</div>
+			<ul class="navlist fl">
+				<li><a href="">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+		<a href="{% url 'goods:list' %}">全部分类</a>
+		<span>></span>
+		<a href="{% url 'goods:list' %}?category={{ goods.category_id }}">
+        {% ifequal goods.category_id 1 %}新鲜水果{% endifequal %}
+        {% ifequal goods.category_id 2 %}海鲜水产{% endifequal %}
+        {% ifequal goods.category_id 3 %}猪牛羊肉{% endifequal %}
+        {% ifequal goods.category_id 4 %}禽类蛋白{% endifequal %}
+        {% ifequal goods.category_id 5 %}新鲜蔬菜{% endifequal %}
+        {% ifequal goods.category_id 6 %}速冻食品{% endifequal %}
+        </a>
+		<span>></span>
+		<a href="#">商品详情</a>
+	</div>
+
+	<div class="goods_detail_con clearfix">
+		<div class="goods_detail_pic fl"><img width="350" height="350" src="/media/{{ goods.goods_front_image }}"></div>
+
+		<div class="goods_detail_list fr">
+            <div id="add" style="display: none;width:300px;height:270px;background:rgba(200,200,200,0.8);position:absolute;">
+                <p style="text-align: center; color:green;font-size: 30px;margin-top: 30px"> 恭喜您! </p>
+                <p style="text-align: center;color:green;font-size: 30px"></p>
+                <div style="text-align: center;margin-top: 80px">
+                    <button style="width: 80px;height: 40px;background: #9f9f9f;cursor: pointer">返回详情</button>
+                    <a href="{% url 'carts:carts' %}"><button style="width: 80px;height: 40px;background: #9f9f9f;cursor: pointer;margin-left: 50px">去购物车</button></a>
+                </div>
+            </div>
+
+			<h3>{{ goods.name }}</h3>
+			<p>{{ goods.goods_brief }}</p>
+			<div class="prize_bar">
+				<span class="show_pirze">¥<em>{{ goods.shop_price }}</em></span>
+				<span class="show_unit">单  位：500g</span>
+                <span class="show_unit">库  存：{{ goods.goods_nums }}</span>
+			</div>
+			<div class="goods_num clearfix">
+				<div class="num_name fl">数 量：</div>
+
+				<div class="num_add fl">
+					<input type="text" name="count" class="num_show fl" value="1">
+					<a href="javascript:;" class="add fr">+</a>
+					<a href="javascript:;" class="minus fr">-</a>
+				</div>
+			</div>
+			<div class="total">总价：<em>{{ goods.shop_price }}</em>元</div>
+			<div class="operate_btn">
+				<a href="" class="buy_btn">立即购买</a>
+{#				<a href="" class="add_cart" id="add_cart">加入购物车</a>#}
+				<span style="cursor: pointer;" class="add_cart" id="add_cart">加入购物车</span>
+			</div>
+
+		</div>
+
+	</div>
+
+    <script>
+    $(function () {
+        {#-----加入购物车------#}
+        function add_carts(){
+            var count = $('input.num_show.fl').val();
+            $.ajax({
+                type: 'get',
+                url: '/carts/add_carts/',
+                data: {'count':count,'id':{{ goods.id }} },
+                async: true,
+                success: function(data) {
+                    console.log(data.goods_type_count)
+                    $('#show_count').html(data.goods_type_count)
+                    $('#add p').eq(1).html(data.success)
+                    if($('#add p').eq(1).html()!=''){
+                        $('#add').show()
+                    }
+
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        }
+
+        $('#add_cart').click(function () {
+            add_carts()
+        });
+        $('#add button').eq(0).click(function () {
+            $('#add').hide()
+        });
+
+
+
+        {#-----商品的增加和减少-----#}
+        var res;
+        function totalPrice() {
+            count = $('input.num_show.fl').val();
+            $.ajax({
+                type: 'get',
+                url: '{% url 'goods:detail' goods.id %}',
+                data: {'count':count },
+                async: false,
+                success: function(data) {
+                    res = data;
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+        }
+        {#失去焦点#}
+        var num=1;
+        $('input.num_show.fl').blur(function () {
+            if ($('input.num_show.fl').val()>{{ goods.goods_nums }}) {
+                $('input.num_show.fl').val({{ goods.goods_nums }});
+            }
+            if ($('input.num_show.fl').val()<1) {
+                $('input.num_show.fl').val(1);
+            }
+            totalPrice();
+            $('div.total em').html(res.total_price)
+        });
+
+        {#数量增加#}
+        $('a.add.fr').click(function () {
+            num = $('input.num_show.fl').val();
+            if (num<{{ goods.goods_nums }}){
+                num++;
+                $('input.num_show.fl').val(num);
+                totalPrice();
+                $('div.total em').html(res.total_price)
+            }
+            else{alert('库存不足!')}
+        });
+
+        {#数量减少#}
+        $('a.minus.fr').click(function () {
+             num = $('input.num_show.fl').val();
+            if (num>1){
+                num--;
+                $('input.num_show.fl').val(num);
+                totalPrice();
+                $('div.total em').html(res.total_price)
+            }
+        })
+    })
+    </script>
+    
+    
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>新品推荐</h3>
+				<ul>
+					<li>
+						<a href="#"><img src="/static/images/goods/goods001.jpg"></a>
+						<h4><a href="#">进口柠檬</a></h4>
+						<div class="prize">￥3.90</div>
+					</li>
+					<li>
+						<a href="#"><img src="/static/images/goods/goods002.jpg"></a>
+						<h4><a href="#">玫瑰香葡萄</a></h4>
+						<div class="prize">￥16.80</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<ul class="detail_tab clearfix">
+				<li class="active">商品介绍</li>
+				<li>评论</li>
+			</ul>
+
+			<div class="tab_content">
+				<dl>
+					<dt>商品详情：</dt>
+					<dd>{{ goods.goods_desc }}</dd>
+				</dl>
+			</div>
+
+		</div>
+	</div>
+{% endblock %}
+
+
+
+{% block footer %}
+    {{ block.super }}
+    <div class="add_jump"></div>
+{% endblock %}
+
+
+{% block js2 %}
+    <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+{#    <script type="text/javascript">#}
+{#    var $add_x = $('#add_cart').offset().top;#}
+{#    var $add_y = $('#add_cart').offset().left;#}
+{##}
+{#    var $to_x = $('#show_count').offset().top;#}
+{#    var $to_y = $('#show_count').offset().left;#}
+{##}
+{#    $(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})#}
+{#    $('#add_cart').click(function(){#}
+{#        $(".add_jump").stop().animate({#}
+{#            'left': $to_y+7,#}
+{#            'top': $to_x+7},#}
+{#            "fast", function() {#}
+{#                $(".add_jump").fadeOut('fast',function(){#}
+{#                    $('#show_count').html(2);#}
+{#                });#}
+{##}
+{#        });#}
+{#    })#}
+{#</script>#}
+{% endblock %}
+
+
