@@ -1,0 +1,51 @@
+
+{% extends 'base_main.html' %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+    <!--第一种加载静态文件的方式-->
+    <!--<link rel="stylesheet" href="/static/css/style.css">-->
+    <!--第二种-->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <p>我是index页面</p>
+    <table>
+        <thead>
+            <th>编号</th>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>手机号</th>
+            <th>住址</th>
+            <th>班级</th>
+            <th>选修课</th>
+        </thead>
+        <tbody>
+            {% for stu in stus %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ stu.id }}</td>
+                <td {% ifequal stu.s_name "xiaoming" %} style="color:yellow;" {% endifequal %}>{{ stu.s_name }}</td>
+                <td {% if stu.s_age > 20 %} style="color:red;" {% endif %}>{{ stu.s_age }}</td>
+                <td>{{ stu.info.phone }}</td>
+                <td>{{ stu.info.address }}</td>
+                <td>{{ stu.g.g_name }}</td>
+                <td>
+                    {% for cou in stu.c.all %}
+                        {{ cou.c_name }}
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {{ content_h2 | safe }}
+{% endblock %}

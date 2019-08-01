@@ -1,0 +1,48 @@
+
+
+scp -r E:\/wordspace\/sz1.django\/axf root@47.240.0.28:/home/code
+scp -r E:\/wordspace\/code\/axf-vue\/dist root@47.240.0.28:/home/code
+
+# 启动
+
+/home/env/axfenv/bin/python3 /home/code/axf/manage.py runserver 0.0.0.0:8000
+
+# 杀端口
+
+ps aux | grep 8000
+netstat -lntp 
+
+kill -9 PID
+
+# 修改django配置，settings.py文件中
+
+DEBUG = False
+ALLOWED_HOSTS = [‘*’]
+
+# 首页接口
+json.loads(conn.get('goods', 'main_wheel').decode('utf8'))
+
+
+# 后台挂载启动命令
+
+start_axf.sh中定义启动命令: /home/env/axfenv/bin/python3 /home/code/axf/manage.py runserver 0.0.0.0:8000
+
+chmod -R 777 start_axf.sh
+
+nohup ./start_axf.sh &
+
+
+# 在/home/conf/下创建axfuwsgi.ini文件
+[uwsgi]
+master=true
+pythonpath = /home/env/axfenv/bin/python3
+http = 47.240.0.28:8001
+logto = /home/logs/axfuwsgi.log
+chdir = /home/code/axf
+module = axf.wsgi
+
+安装uwsgi
+/home/env/axfenv/bin/pip3 install uwsgi
+
+启动ini
+/home/env/axfenv/bin/uwsgi --ini /home/conf/axfuwsgi.ini

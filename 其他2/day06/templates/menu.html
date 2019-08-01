@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单</title>
+</head>
+<body>
+    {{ perms.newuser }}
+
+    {{ perms.app.sel }}
+    {{ perms.app.add }}
+    {{ perms.app.delete }}
+    {{ perms.app.update }}
+
+    {% if perms.app.add or user.is_superuser %}
+        <p>新增用户权限</p>
+    {% endif %}
+
+    {% if perms.app.sel or user.is_superuser %}
+        <p>查看用户权限</p>
+    {% endif %}
+
+    {% if perms.app.delete or user.is_superuser %}
+        <p>删除用户权限</p>
+    {% endif %}
+
+    {% if perms.app.update or user.is_superuser %}
+        <p>修改用户权限</p>
+    {% endif %}
+</body>
+</html>

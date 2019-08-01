@@ -1,0 +1,12 @@
+Django==1.11.7
+django-cache==0.3
+django-cors-headers==2.4.0
+django-redis==4.10.0
+django-redis-cache==1.8.1
+djangorestframework==3.9.1
+Pillow==5.4.1
+pycryptodomex==3.7.2
+PyMySQL==0.9.3
+python-alipay-sdk==1.9.1
+pytz==2018.9
+redis==2.10.6

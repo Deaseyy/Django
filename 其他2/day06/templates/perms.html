@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分配权限页面</title>
+</head>
+<body>
+    <form action="" method="post">
+        <p>当前用户: {{ user }}</p>
+        <p>角色:
+            <select name="role">
+                {% for g in goups %}
+                    <option value="{{ g.id }}">{{ g.name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            {% for permission in permissions %}
+                <input type="checkbox" name="per" value="{{ permission.id }}">{{ permission.name }}
+            {% endfor %}
+        </p>
+        <p><input type="submit" value="提交"></p>
+    </form>
+</body>
+</html>

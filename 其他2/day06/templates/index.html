@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p><img src="/media/{{ user.icon }}"></p>
+    <p>跳转、重定向</p>
+    <p>id：{{ id }}</p>
+    <!--无参情况-->
+    <P><a href="/app/redirect_no_params/">重定向地址1</a></P>
+    <P><a href="{% url 'app:no_params' %}">重定向地址1</a></P>
+    <!--有参情况-->
+    {# {% url 'namespace:name' 参数值1 参数值2 参数值3 %} #}
+    <P><a href="{% url 'app:params' 15 %}">重定向地址2</a></P>
+</body>
+</html>

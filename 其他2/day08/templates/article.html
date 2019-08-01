@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <p>标题: <input type="text" name="title"></p>
+        <p>内容: <input type="text" name="desc"></p>
+        <p>发布:
+            <input type="checkbox" value="1" name="is_show">发布
+            <input type="checkbox" value="0" name="is_show">不发布
+        </p>
+        <p><input type="submit" value="提交"></p>
+    </form>
+</body>
+</html>
