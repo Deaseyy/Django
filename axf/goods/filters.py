@@ -5,7 +5,8 @@ from goods.models import Goods
 
 class GoodsFilter(django_filters.rest_framework.FilterSet):
     # typeid  childid  order_rule
-    typeid = django_filters.CharFilter('categoryid') # id为精确查询,无需lookup参数,typeid对应数据库categoryid参数
+    # 左侧变量为前端？后传的过滤参数，对应右边中填数据库中对应参数
+    typeid = django_filters.CharFilter('categoryid') # id为精确查询,无需lookup_expr='contains'参数,typeid对应数据库categoryid参数
     childcid = django_filters.CharFilter(method='filter_child')  # 当过滤字段与数据字段一样时括号内可不定义
     order_rule = django_filters.CharFilter(method='filter_rule')
 

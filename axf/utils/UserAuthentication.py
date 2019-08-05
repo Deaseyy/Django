@@ -19,7 +19,7 @@ class UserAuth(BaseAuthentication):
         user_id = cache.get(token)
         if user_id:
             user = AXFUser.objects.filter(pk=user_id).first()
-            return user, token
+            return user, token     # 返回的user会设置到request.user上(request.user默认是匿名用户)
         res = {
             'code': 1007,
             'msg': '请先登陆后再操作'

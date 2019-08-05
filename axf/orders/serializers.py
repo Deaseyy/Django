@@ -13,7 +13,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     # 重构 to_representation
-    def to_representation(self, instance):
+    def to_representation(self, instance):  # 返回的就是instance序列化后的字典数据data
         # instance就是订单对象
         data = super().to_representation(instance)
         order_goods = instance.ordergoods_set.all()  # 对象.模型名的小写_set

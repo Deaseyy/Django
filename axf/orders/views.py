@@ -13,8 +13,8 @@ from utils.UserAuthentication import UserAuth
 
 
 class OrdersView(viewsets.GenericViewSet,
-                 mixins.CreateModelMixin, #post /order/
-                 mixins.ListModelMixin):  #get  /order/
+                 mixins.CreateModelMixin,
+                 mixins.ListModelMixin):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     filter_class = OrderFilter
@@ -24,7 +24,7 @@ class OrdersView(viewsets.GenericViewSet,
     # 商品订单页面展示
     # # list方法返回结构:{code:200,msg:'',data[{订单,order_goods_info}]}
     # 方法一: 重构list中get_queryset方法, 序列化类中再重构to_representation,
-    def get_queryset(self):
+    def get_queryset(self):   # 默认返回queryset
         return self.queryset.filter(o_user=self.request.user)
 
     # 方法二: 重构list方法

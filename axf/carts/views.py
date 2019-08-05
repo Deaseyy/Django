@@ -25,7 +25,7 @@ class CartView(viewsets.GenericViewSet,
 
         queryset = self.get_queryset()
         # 查找出当前登陆用户的购物车信息
-        queryset = queryset.filter(c_user=request.user)
+        queryset = queryset.filter(c_user=request.user)  # 也可以c_user_id=user.id
         serializer = self.get_serializer(queryset, many=True)
 
         # 计算总价

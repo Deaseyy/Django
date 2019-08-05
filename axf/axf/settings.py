@@ -26,7 +26,6 @@ SECRET_KEY = 'i0q8$#idij62e$u#kl)#lugtrxa=*34!hq9ign1#4=-0jtez&l'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-# '线上部署' [*] 表示所有ip ,或['指定ip']
 
 
 # Application definition
@@ -164,7 +163,7 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'Pragma',
 )
-# 跨域请求时，是否运行携带cookie，默认为False
+# 跨域请求时，是否允许携带cookie，默认为False
 CORS_ALLOW_CREDENTIALS = True
 # 允许所有主机执行跨站点请求，默认为False
 # 如果没设置该参数，则必须设置白名单，运行部分白名单的主机才能执行跨站点请求

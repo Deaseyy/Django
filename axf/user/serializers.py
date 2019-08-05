@@ -10,14 +10,13 @@ from utils.errors import ParamsException
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # 继承ModelSerializer,可序列化,可校验字段
+    # 继承ModelSerializer,可序列化,可校验字段,无需自定义字段
     class Meta:
         model = AXFUser
         fields = '__all__'
 
 
 class UserRegisterSerializer(serializers.Serializer):
-    # 注册序列化,只起到校验字段作用
     u_username = serializers.CharField(required=True, max_length=10,min_length=3,
                                        error_messages={
                                            'required': '注册账号必填!',
@@ -105,7 +104,7 @@ class UserLoginSerializer(serializers.Serializer):
 
 
     def login_user(self,validate_attr):
-        # 登陆,设置并返回token参数给前端,且保存token参数到resis
+        # 登陆,设置并返回token参数给前端,且保存token参数到redis
         token = uuid.uuid4().hex
         username = validate_attr.get('u_username')
         user = AXFUser.objects.filter(u_username=username).first()
