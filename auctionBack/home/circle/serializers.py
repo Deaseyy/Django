@@ -9,8 +9,7 @@ from home.circle.models import News, NewsDetail, Comment
 
 """
 注意事项：
-1.read_only属性只是不做校验，但还是会作为属性创建保存；
-    所以创建时不需要的表格字段必须exclude，谨防前端传递直接改变（比如点赞数，浏览数）
+1. 创建时不需要的表格字段必须exclude或设置readonly，谨防前端传递直接改变（比如点赞数，浏览数）
 
 2. 展示关联表的信息
     a.（一对一，一对多）模型中如果有外键属性需要展示，可直接使用嵌套序列化；
