@@ -11,7 +11,7 @@ channels-redis==3.0.1
 chardet==3.0.4
 constantly==15.1.0
 crypto==1.4.1
-cryptography==3.0
+cryptography==3.2
 daphne==2.5.0
 Django==2.2.3
 django-cors-headers==2.5.3
