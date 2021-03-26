@@ -35,7 +35,7 @@ PyJWT==1.7.1
 PyMySQL==0.10.0
 pyOpenSSL==19.1.0
 pytz==2019.1
-PyYAML==5.1
+PyYAML==5.4
 qcloud-python-sts==3.0.3
 redis==3.5.3
 requests==2.21.0
