@@ -13,7 +13,7 @@ constantly==15.1.0
 crypto==1.4.1
 cryptography==3.0
 daphne==2.5.0
-Django==2.2.3
+Django==2.2.20
 django-cors-headers==2.5.3
 django-filter==2.1.0
 django-redis==4.12.1
